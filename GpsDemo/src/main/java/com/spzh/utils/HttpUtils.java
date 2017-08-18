@@ -17,37 +17,17 @@ public class HttpUtils {
      *
      * @param url
      *            目的地址
-     * @param parameters
      *            请求参数，Map类型。
      * @return 远程响应结果
      */
-    public static String sendGet(String url, Map<String, String> parameters) {
+    public static String sendGet(String url) {
         String result="";
         BufferedReader in = null;// 读取响应输入流
         StringBuffer sb = new StringBuffer();// 存储参数
         String params = "";// 编码之后的参数
         try {
-            // 编码请求参数
-            if(parameters.size()==1){
-                for(String name:parameters.keySet()){
-                    sb.append(name).append("=").append(
-                            java.net.URLEncoder.encode(parameters.get(name),
-                                    "UTF-8"));
-                }
-                params=sb.toString();
-            }else{
-                for (String name : parameters.keySet()) {
-                    sb.append(name).append("=").append(
-                            java.net.URLEncoder.encode(parameters.get(name),
-                                    "UTF-8")).append("&");
-                }
-                String temp_params = sb.toString();
-                params = temp_params.substring(0, temp_params.length() - 1);
-            }
-            String full_url = url + "?" + params;
-            System.out.println(full_url);
             // 创建URL对象
-            java.net.URL connURL = new java.net.URL(full_url);
+            java.net.URL connURL = new java.net.URL(url);
             // 打开URL连接
             java.net.HttpURLConnection httpConn = (java.net.HttpURLConnection) connURL
                     .openConnection();
@@ -171,7 +151,7 @@ public class HttpUtils {
     public static void main(String[] args) {
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("name", "sarin");
-        String result =sendGet("http://www.baidu.com", parameters);
+        String result =sendGet("http://www.baidu.com");
         System.out.println(result);
     }
 }
