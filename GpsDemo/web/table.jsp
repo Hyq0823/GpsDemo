@@ -22,6 +22,68 @@
 
 
 
+<!-- Table with checkboxes -->
+<div class="widget">
+    <div class="whead"><span class="titleIcon check"><input type="checkbox" id="titleCheck" name="titleCheck" /></span><h6>Static table with checkboxes</h6><div class="clear"></div></div>
+    <table cellpadding="0" cellspacing="0" width="100%" class="tDefault checkAll check" id="checkAll">
+        <thead>
+        <tr>
+            <td><img src="images/elements/other/tableArrows.png" alt="" /></td>
+            <td>Column name</td>
+            <td>Column name</td>
+            <td>Column name</td>
+            <td>Column name</td>
+            <td>Column name</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><input type="checkbox" id="titleCheck2" name="checkRow" /></td>
+            <td>Row 1</td>
+            <td>Row 2</td>
+            <td>Row 3</td>
+            <td>Row 4</td>
+            <td>Row 5</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" id="titleCheck3" name="checkRow" /></td>
+            <td>Row 1</td>
+            <td>Row 2</td>
+            <td>Row 3</td>
+            <td>Row 4</td>
+            <td>Row 5</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" id="titleCheck4" name="checkRow" /></td>
+            <td>Row 1</td>
+            <td>Row 2</td>
+            <td>Row 3</td>
+            <td>Row 4</td>
+            <td>Row 5</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" id="titleCheck5" name="checkRow" /></td>
+            <td>Row 1</td>
+            <td>Row 2</td>
+            <td>Row 3</td>
+            <td>Row 4</td>
+            <td>Row 5</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" id="titleCheck6" name="checkRow" /></td>
+            <td>Row 1</td>
+            <td>Row 2</td>
+            <td>Row 3</td>
+            <td>Row 4</td>
+            <td>Row 5</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
 
 
 
@@ -178,15 +240,16 @@ var dynamicMain =(function(){
         console.log(html_tr);
         $(this.tableBody).append(html_tr);
         console.groupEnd();
+        $.uniform.update();
     }
     DynamicTable.prototype.delRow=function(){
         console.log(this.trIndex);
-        debugger;
         if(this.trIndex<1){return;}
         var lastTrObj =$("#"+this.tableId+"_tr_"+(this.trIndex - 1));
         lastTrObj.remove();
         this.trIndex--;
         console.groupEnd();
+        $.uniform.update();
     }
 
     function eventHandler(){
@@ -212,6 +275,7 @@ var dynamicMain =(function(){
             });
             dynamicTable.showTable();
             $("#table_areas").append(dynamicTable.obj);
+            $.uniform.update();
         });
 
 
