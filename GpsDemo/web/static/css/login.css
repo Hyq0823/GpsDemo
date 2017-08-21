@@ -1,0 +1,105 @@
+body{
+    background: #ecefef;
+    font-family: "Microsoft YaHei","Helvetica Neue","Hiragino Sans GB","\9ED1\4F53",Arial,sans-serif;
+    font-weight:lighter;
+    color: #222;
+}
+.kn_title{
+    width: 100%;
+    text-align: center;
+    font-family:simhei;
+    font-weight: bold;
+    font-size: 31px;
+    color: #FFFFFF;
+    position: relative;
+    min-width: 280px;
+    max-height: 0;
+    top: -50px;
+}
+.top{
+    background: #00796b;
+    width: 100%;
+    height: 425px;
+}
+.formRow{
+    border:none!important;
+    text-align: center;
+}
+.err_tips{
+    height: 20px;
+}
+.class_ipt{
+    padding-left:37px!important;
+    background-color:white!important;
+    font-size: 17px!important;
+    height: 37px!important;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075)!important;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s!important;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s!important;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s!important;
+}
+.class_ipt:focus{
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+}
+
+.form_warpper{
+    background: rgb(255, 255, 255);
+    border: 1px solid rgb(231, 231, 231);
+    border-image: none;
+}
+.btn_login{
+    width: 252px;
+    height: 43px;
+    color: #FFFFFF;
+    background-color: #2fb791;
+    border: 1px solid #2fb791;
+    box-shadow: 0 1px 2px 0 #2fb791 inset;
+    -webkit-box-shadow: 0 1px 2px 0 #2fb791 inset;
+    -moz-box-shadow: 0 1px 2px 0 #2fb791 inset;
+    font-size: 18px;
+}
+.name_icon{
+    position: absolute;
+    left:24px;
+    top:84px;
+}
+.pwd_icon{
+    position: absolute;
+    left: 24px;
+    top:158px;
+}
+
+.container{
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin:-150px 0 0 -200px;
+    width:400px;
+    height:300px;
+}
+.light{
+    z-index: -9898;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -95px 0 0 -84px;
+    filter:alpha(Opacity=16);
+    -moz-opacity:0.16;
+    opacity: 0.16;
+    height: 500px;
+    width:400px;
+    overflow: hidden;
+    background-color: #afb3b3;
+    transform:rotate(53.13deg);
+    -ms-transform:rotate(53.13deg); /* Internet Explorer */
+    -moz-transform:rotate(53.13deg); /* Firefox */
+    -webkit-transform:rotate(53.13deg); /* Safari 和 Chrome */
+    -o-transform:rotate(53.13deg); /* Opera */
+
+}
+

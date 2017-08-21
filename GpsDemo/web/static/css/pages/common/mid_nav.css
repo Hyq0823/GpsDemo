@@ -1,0 +1,49 @@
+/**代办任务*/
+#my_task{
+} 
+
+/*二级导航*/
+.mid_nav_li{
+	height: 43px;
+	font-size: 18px; 
+}
+
+.mid_nav_li a{
+ 	 font-family: 'Arial Normal', 'Arial';
+    font-weight: 400;
+    font-style: normal;
+    color: #000000;
+    text-align: left;
+    line-height: normal; 
+}
+
+/**任务状态*/
+#task_status li a{
+	color:	#339966;
+	font-size: 13px;
+}
+.under_line{
+	text-decoration: underline;
+}
+
+
+#my_task .now_date_title{
+	padding:10px;
+	color: #FDFFFF;
+}
+#my_task .task{
+	position: absolute;
+	right:10px;
+	top:0;
+	padding:10px;
+	color: #CC9933;
+}
+
+.now_date{
+	color:#959595;
+	padding: 10px;
+    line-height: 10px;
+}
+.mid_nav_active{
+	color: #A64949;
+}

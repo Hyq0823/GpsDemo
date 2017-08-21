@@ -1,0 +1,123 @@
+#top_title{
+	color:#EBEBEB;
+	font-size: 17px;
+	font-weight: bold; 
+	position: absolute;
+    top: 14px;
+    left: 13%;
+	
+}
+#left_nav_li span{  
+	font-size: 15px;
+}
+
+/**中间二级导航*/ 
+.mid_nav{
+	width: 227px;
+	height: 960px;
+}
+
+/*右边窗体*/
+#main_content{
+
+    position: relative;
+    margin-left: 327px;
+}
+
+
+/*快速通道*/
+.contentTop a{
+	display: inline-block;
+	width: 60px;
+
+	text-align: center;
+	padding-left: 30px;
+}
+
+.quick_road_word{
+	position: absolute;
+    left: 23px;
+    top: 24px;
+    color:#0099FF;
+}
+
+
+/*右边当前位置*/
+.line_p{
+	padding:0;
+	position:absolute;
+	left: 10px;
+}
+.line_p img{
+	position: relative;
+	top:4px;
+}
+.line_p .word{
+	display: inline-block;
+	position: relative;
+    top: -2px;
+}
+
+
+/**代办任务*/
+#my_task{
+}
+
+
+/**任务状态*/
+#task_status li a{
+	color:	#339966;
+	font-size: 13px;
+}
+.under_line{
+	text-decoration: underline;
+}
+
+
+#my_task .now_date_title{
+	padding:10px;
+	color: #FDFFFF;
+}
+#my_task .task{
+	position: absolute;
+	right:10px;
+	top:0;
+	padding:10px;
+	color: #CC9933;
+}
+ .task_tips{
+    width:0px;
+    height:0px;
+    border-width:17px;
+    border-color: #990000 #990000 transparent transparent;
+    border-style:solid;
+    display: inline-block;
+    position:absolute;
+    top:0;
+    right:0;
+}
+ .task_tips span{
+     position: absolute;
+     top: -19px;
+     right: -19px;
+     color:#FFFFFF;
+     width:26px;
+     height:26px;
+     overflow:hidden;
+     text-overflow: ellipsis;
+     white-space: nowrap;
+     text-align: center;
+ }
+ .task_tips span:hover{
+     cursor:pointer;
+ }
+
+.now_date{
+	color:#959595;
+	padding: 10px;
+	line-height: 10px;
+}
+.mid_nav_active{
+	color: #A64949;
+}
+

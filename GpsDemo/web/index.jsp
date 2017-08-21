@@ -143,7 +143,7 @@
                               </td>
                               <td>
                                   <a href="javascript:void(0)" onclick="fregmentDownload('${file.len}','${file.devIdno}','${file.startTime}','${file.endTime}','${file.file}','${file.type}','${file.chn}')">分段下载</a>
-                                  <a download_url="&jsession=${jsession}&DevIDNO=${file.devIdno}&FLENGTH=${file.len}&FOFFSET=0&MTYPE=1&FPATH=${file.file}&SAVENAME=${file.file}" href="javascript:void(0);" onclick="dowloadAll(this)">直接下载</a>
+                                  <a download_url="&DevIDNO=${file.devIdno}&FLENGTH=${file.len}&FOFFSET=0&MTYPE=1&FPATH=${file.file}&SAVENAME=${file.file}" href="javascript:void(0);" onclick="dowloadAll(this,${file.devIdno},${file.loc},${file.svr})">直接下载</a>
                                   <a play_url="&DevIDNO=${file.devIdno}&FILELOC=${file.loc}&FILESVR=${file.svr}&FILECHN=${file.chn}&FILEBEG=${file.beg}&FILEEND=${file.end}&PLAYIFRM=0&PLAYCHN=0&PLAYFILE=${file.file}&PLAYBEG=0&PLAYEND=0" href="javascript:void(0);" onclick="remotePlay(this)">播放</a>
                               </td>
                           </tr>
@@ -255,7 +255,8 @@
   </script>
 
 <script type="text/javascript">
-    function remotePlay(obj){
+    //devNo,loc,svr
+    function remotePlay(obj,devNo,loc,svr){
         debugger;
         var base_url = "http://120.77.253.46:6604/3/5?DownType=5";
         console.log(this);
@@ -266,11 +267,68 @@
         swfobject.getObjectById("cmsv6flash").stopVideo(0);
         var ret = swfobject.getObjectById("cmsv6flash").startVod(0, play_url);
     }
-    function dowloadAll(obj){
+
+
+
+    //Query related server information
+    function QueryServer(obj,devNo,loc,svr) {
+        var param = [];
+        param.push({name: 'Location', value: loc});
+        param.push({name: 'FileSvrID', value: svr});
+        param.push({name: 'DevIDNO', value: devNo});
+        param.push({name: 'jsession', value: '${jsession}'});
+
+        //http://120.77.253.46:6605/3/1?MediaType=2&DownType=3&jsession=cf6b70a3-c82b-4392-8ab6-bbddce336222&DevIDNO=500000&Location=1&FileSvrID=0
+        debugger;
+        //Real time server information
+        $.ajax({
+            type:'POST',
+            url:'http://120.77.253.46:6605/3/1/callback=getData?MediaType=2&DownType=3',
+            data:param,
+            cache:false,
+            dataType: 'jsonp',
+            success: getData = function (data) {
+                if(data.result == 0){
+                    doDownloadVideoFileInfo(obj,data.server);
+                }else{
+                    layer.msg('查询服务器出错！',{area: ['200px', '120px']});
+                }
+                console.log(data);
+            }
+        });
+    }
+
+    //Download video file information
+    function doDownloadVideoFileInfo(obj,dwServer) {
+        debugger;
+        var base_url = "http://" + dwServer.clientIp +':'+ dwServer.clientPort + "/3/5?DownType=3";
+        var url = base_url + encodeURI($(obj).attr("download_url"));
+        window.open(url, "_blank");
+    }
+
+    function dowloadAll(obj,devNo,loc,svr){
+        QueryServer(obj,devNo,loc,svr);
+
+
+        /*
         var base_url = "http://120.77.253.46:6604/3/5?DownType=3";
         var url = base_url + $(obj).attr("download_url");
         console.log(url);
-        window.location.href = url;
+        debugger;
+        //window.location.href = url;
+        $.ajax({
+            url:url,
+            dataType:'jsonp',
+            processData: false,
+            type:'get',
+            success:function(r){
+                debugger;
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown) {
+                layer.msg('下载失败！',{area: ['200px', '120px']});
+            }});
+            */
+
     }
 
     function fregmentDownload(len,deviceNo,startTime,endTime,path,type,ch){
