@@ -47,5 +47,6 @@
 	<script type="text/javascript" src="${basePath }/static/js/plugins/ui/jquery.easytabs.min.js"></script>
 	<script type="text/javascript" src="${basePath }/static/js/files/bootstrap.js"></script>
 	<script type="text/javascript" src="${basePath }/static/js/files/functions.js"></script>
+    <script type="text/javascript" src="${basePath }/static/js/base.js"></script>
 </head>
 <body>

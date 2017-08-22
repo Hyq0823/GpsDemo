@@ -313,24 +313,36 @@ $(function() {
 	//===== Check all checbboxes =====//
 	
 	$(".titleIcon input:checkbox").click(function() {
-		var checkedStatus = this.checked;
-		$("#checkAll tbody tr td:first-child input:checkbox").each(function() {
+        var checkedStatus = this.checked;
+
+		//$("#checkAll tbody tr td:first-child input:checkbox").each(function() {
+        //Fixed 存在多个表格时,全选不生效的问题
+        $(this).closest('.widget').find("table tbody tr td:first-child input:checkbox").each(function(){
 			this.checked = checkedStatus;
 				if (checkedStatus == this.checked) {
-					$(this).closest('.checker > span').removeClass('checked');
+					//$(this).closest('.checker > span').removeClass('checked');
+                    $(this).removeClass('checked');
 					$(this).closest('table tbody tr').removeClass('thisRow');
 				}
 				if (this.checked) {
-					$(this).closest('.checker > span').addClass('checked');
+					//$(this).closest('.checker > span').addClass('checked');
+					$(this).addClass('checked');
 					$(this).closest('table tbody tr').addClass('thisRow');
 				}
 		});
 	});	
 	
 	$(function() {
-    $('#checkAll tbody tr td:first-child input[type=checkbox]').change(function() {
-        $(this).closest('tr').toggleClass("thisRow", this.checked);
-		});
+        //$('.checkAll tbody tr td:first-child input[type=checkbox]').change(function() {
+          //  $(this).closest('tr').toggleClass("thisRow", this.checked);
+        //});
+        //fixed动态添加的checkBox事件无效的问题
+        $(document).on("click",'.checkAll tbody tr td:first-child input[type=checkbox]',function(){
+            $(this).closest('tr').toggleClass("thisRow", this.checked);
+            $(this).toggleClass('checked',this.checked);
+        });
+
+
 	});
 
 
@@ -981,7 +993,7 @@ $(function() {
 
 	//===== Form elements styling =====//
 	
-	$("select, .check, .check :checkbox, input:radio, input:file").uniform();
+	 $("select, .check, .check :checkbox, input:radio, input:file").uniform();
 });
 
 	

@@ -2,12 +2,13 @@
 <jsp:include page="/header.jsp"></jsp:include>
 <script type="text/javascript" src="${basePath }/static/layer3.0.3/layer/layer.js"></script>
 
+<link rel="stylesheet" type="text/css" href="${basePath }/static/js/plugins/forms/validate/validationEngine.jquery.css">
+<script type="text/javascript" src="${basePath }/static/js/plugins/forms/validate/jquery.validationEngine.js"></script>
+<script type="text/javascript" src="${basePath }/static/js/plugins/forms/validate/jquery.validationEngine-zh_CN.js"></script>
+
 <style type="text/css">
     .operate{
         margin-left:40px;
-    }
-    label{
-        float: left;
     }
 
     td input{
@@ -15,7 +16,7 @@
         height: 100%;
     }
     .dynDiv input{
-        float: left;
+        float:left;
     }
     .diplayNone{display: none}
 </style>
@@ -28,8 +29,8 @@
 <div  class="condition" style="width: 700px;height: 50px;">
     <div>
         <label>规则条件：</label>
-        <input id="r1" type="radio" name="calculateWay" value="td_calculate" checked="checked"/><label for="r1">计量</label>
-        <input id="r2" type="radio" name="calculateWay" value="td_calculate_gap" /><label for="r2">计量区间</label>
+        <input id="r1" type="radio" name="calculateWay" value="td_calculate" checked="checked"/><label style="float: left;" for="r1">计量</label>
+        <input id="r2" type="radio" name="calculateWay" value="td_calculate_gap" /><label for="r2" style="float: left;">计量区间</label>
     </div>
 
     <div style="margin-top:10px;"></div>
@@ -48,7 +49,7 @@
 <div class="widget" id="tableTemplate" style="display:none;">
     <div class="whead">
         <span class="titleIcon check">
-            <input type="checkbox"  name="titleCheck" />
+            <input type="checkbox" style="width: 40px;height: 37px" name="titleCheck"  class="headCheckBox"/>
         </span>
         <h6>表格模板</h6>
         <div class="operate">
@@ -94,34 +95,30 @@
             </td>
 
             <!--根据规则显示：1.计量  2.计量区间 -->
-            <td class="td_calculate" style="display: none"><input type="text" name="weight_only"  disabled="disabled"/></td>
+            <td class="td_calculate" style="display: none"><input class="validate[custom[number]]" type="text" name="weight_only"  disabled="disabled"/></td>
 
-            <td class="td_calculate_gap" style="display: none"><input type="text" name="weight_left" disabled="disabled" /></td>
-            <td class="td_calculate_gap" style="display: none"><input type="text" name="weight_right" disabled="disabled" /></td>
+            <td class="td_calculate_gap" style="display: none"><input type="text" class="validate[custom[number]]" name="weight_left" disabled="disabled" /></td>
+            <td class="td_calculate_gap" style="display: none"><input type="text" class="validate[custom[number]]" name="weight_right" disabled="disabled" /></td>
 
 
             <!-- 是否勾选重量区间（是：显示2个td  否：不显示两个td）-->
-            <td class="td_weight_gap" style="display: none"><input type="text" name="weight_min" disabled="disabled"  /></td>
-            <td class="td_weight_gap" style="display: none"><input type="text" name="weight_max" disabled="disabled" /></td>
+            <td class="td_weight_gap" style="display: none"><input type="text" class="validate[custom[number]]" name="weight_min" disabled="disabled"  /></td>
+            <td class="td_weight_gap" style="display: none"><input type="text" class="validate[custom[number]]" name="weight_max" disabled="disabled" /></td>
 
 
             <!-- 收费-->
-            <td class="td_charge"><input type="text" name="charge" /></td>
+            <td class="td_charge"><input type="text" class="validate[custom[number]]" name="charge" /></td>
 
 
             <!--这2项--根据条件多选 -->
             <!--政府补贴 -->
             <td class="td_gover_aid" style="display: none;">
-                <input type="text" name="gover"  disabled="disabled"/>
+                <input type="text" name="gover" class="validate[custom[number]]"  disabled="disabled"/>
             </td>
             <!--返还金额 -->
             <td class="td_pay_back" style="display: none">
-                <input type="text" name="payback"  disabled="disabled"/>
+                <input type="text" class="validate[custom[number]]" name="payback"  disabled="disabled"/>
             </td>
-
-
-
-
         </tr>
         </tbody>
     </table>
@@ -180,13 +177,28 @@ var dynamicMain =(function(){
         console.groupEnd();
     }
     DynamicTable.prototype.delRow=function(){
+        var checkedTrs = this.tableBody.find("tr").attr("class","thisRow");
         console.log(this.trIndex);
+        console.log(checkedTrs);
+
         debugger;
+        $.each(checkedTrs,function(index,value){
+            if(index == 0){return true;}
+            console.log(value);
+            value.remove();
+            this.trIndex--;
+        });
+        console.log("剩余tr:"+this.trIndex);
+
+        /*
+        //删除最后一行
+        console.log(this.trIndex);
         if(this.trIndex<1){return;}
         var lastTrObj =$("#"+this.tableId+"_tr_"+(this.trIndex - 1));
         lastTrObj.remove();
         this.trIndex--;
         console.groupEnd();
+        */
     }
 
     function eventHandler(){
@@ -212,15 +224,10 @@ var dynamicMain =(function(){
             });
             dynamicTable.showTable();
             $("#table_areas").append(dynamicTable.obj);
+            //setTimeout($.uniform.update, 1);
         });
 
 
-        //表单提交
-        /*
-        $("#table_areas").submit(function(){
-            var data = $("#table_areas").serialize();
-            console.log(data);
-        })*/
 
     }
         function init(){
@@ -232,6 +239,22 @@ var dynamicMain =(function(){
     })();
 
 dynamicMain.init();
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $.uniform.restore("input:checkbox");
+
+        jQuery(document).ready(function(){
+            $("#table_areas").validationEngine({
+                validationEventTriggers:"blur",  //触发的事件  validationEventTriggers:"keyup blur",
+                inlineValidation:true,//是否即时验证，false为提交表单时验证,默认true
+                success:false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
+                promptPosition:"bottomLeft",//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
+            });
+        });
+    });
+
 </script>
 
 </body>
