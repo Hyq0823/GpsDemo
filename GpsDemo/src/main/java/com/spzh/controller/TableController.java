@@ -1,7 +1,7 @@
 package com.spzh.controller;
 
 import com.spzh.entity.Area;
-import com.spzh.form.LoginForm;
+import com.spzh.entity.Table;
 import com.spzh.service.GpsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,11 +52,10 @@ public class TableController {
     }
 
 
-    @RequestMapping({"/table",""})
-    public String login(Model model, HttpServletRequest request){
-        LoginForm loginForm = gpsService.login(request);
-        model.addAttribute("loginForm",loginForm);
-        return "index";
+    @RequestMapping("/table")
+    public String login(Model model, Table table){
+        model.addAttribute("table",table);
+        return "table";
     }
     @RequestMapping("/treeTable")
     public String treeTable(Model model, HttpServletRequest request){

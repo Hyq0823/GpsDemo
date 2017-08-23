@@ -16,6 +16,22 @@ public class Table {
     private String gover;
     private String payback;
 
+    @Override
+    public String toString() {
+        return "Table{" +
+                "收集物='" + collect + '\'' +
+                ", 类型='" + type + '\'' +
+                ", 单位='" + unit + '\'' +
+                ", 计量='" + weight_only + '\'' +
+                ", 计量（小）='" + weight_left + '\'' +
+                ", 计量（大）='" + weight_right + '\'' +
+                ", 重量（小）='" + weight_min + '\'' +
+                ", 重量（大）='" + weight_max + '\'' +
+                ", 收费='" + charge + '\'' +
+                ", 政府补贴='" + gover + '\'' +
+                ", 返还='" + payback + '\'' +
+                '}';
+    }
 
     public Table() {
     }

@@ -29,12 +29,12 @@
                 if(!data || data.length==0){
                     $(event.target).css("visibility","hidden");
                 }
-                for (var i=0; i<data.length; i++){
+                for (var i=0; i<data.length;i++){
                     var row = data[i];
                     if (row){
-
-                        html+= Mustache.render(row.hasChild=="1"?tpl:tpl.replace('haschild="true"',''), {
-                            pid: (root?0:parentId),row: row
+                        console.log("产生html前row.parentId: ："+row.parentId +"row.hasChild:"+row.hasChild);
+                        html+= Mustache.render(row.hasChild=='1'?tpl:tpl.replace('haschild="true"',''), {
+                            pid: (row.parentId==""?0:row.parentId),row: row
                         });
                     }
                 }
@@ -48,7 +48,7 @@
         var tpl = $("#treeTableTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
         $("#treeTableList").append(findByParentId("0",tpl,true));
         var $treeTable=$("#treeTable").treeTable({
-            expandLevel : 1,
+            expandLevel : 2,
             beforeExpand : function($treeTable, id) {
                 //判断id是否已经有了孩子节点，如果有了就不再加载，这样就可以起到缓存的作用
                 if ($('.' + id, $treeTable).length) { return; }
