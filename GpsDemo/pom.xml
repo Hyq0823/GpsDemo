@@ -17,6 +17,7 @@
         <jstl.version>1.2</jstl.version>
         <servlet.version>3.0.1</servlet.version>
         <jsp.version>2.3.1</jsp.version>
+        <commons-fileupload.version>1.3.1</commons-fileupload.version>
     </properties>
 
     <!--SpringMVC-->
@@ -53,7 +54,11 @@
             <version>${poi.version}</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${commons-fileupload.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>

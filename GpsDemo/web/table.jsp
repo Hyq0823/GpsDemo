@@ -181,25 +181,25 @@
             var html_tr = this.firstTr[0].outerHTML;
             html_tr = html_tr.replace("<tr>", '<tr id="' + this.tableId + '_tr_' + this.trIndex + '">');
             this.trIndex++;
-            console.log(html_tr);
+           //console.log(html_tr);
             $(this.tableBody).append(html_tr);
             console.groupEnd();
         }
         DynamicTable.prototype.delRow = function () {
-            var checkedTrs = this.tableBody.find("tr").attr("class", "thisRow");
-            console.log(this.trIndex);
+            console.log(this.tableBody[0].outerHTML);
+            var checkedTrs = this.tableBody.find("tr").attr("class", "checked");
             console.log(checkedTrs);
+            this.trIndex-=(checkedTrs.length-1);
 
             //勾选删除还是从最后一行开始删除
-            $.each(checkedTrs, function (index, value) {
+            $.each(checkedTrs, function (index, value){
                 if (index == 0) {
                     return true;
                 }
-                console.log(value);
                 value.remove();
-                this.trIndex--;
             });
             console.log("剩余tr:" + this.trIndex);
+
             /*
              //删除最后一行
              console.log(this.trIndex);
@@ -223,7 +223,6 @@
                 });
                 $.each(dyncolumns, function (index, value) {
                     dynamicTable.obj.find("." + value).show().find("input").removeAttr("disabled");
-                    ;
                 });
                 dynamicTable.obj.find(".btn_table_del").click(function () {
                     dynamicTable.destory();

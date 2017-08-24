@@ -17,6 +17,9 @@ public class AreaForm {
     @ExcelField(title = "地区编码")
     private String code;
 
+    public AreaForm() {
+        super();
+    }
 
     public AreaForm(String id, String name, String hasChild, String parentId, String code) {
         this.id = id;
@@ -68,5 +71,16 @@ public class AreaForm {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    @Override
+    public String toString() {
+        return "AreaForm{" +
+                "name='" + name + '\'' +
+                ", id='" + id + '\'' +
+                ", hasChild='" + hasChild + '\'' +
+                ", parentId='" + parentId + '\'' +
+                ", code='" + code + '\'' +
+                '}';
     }
 }

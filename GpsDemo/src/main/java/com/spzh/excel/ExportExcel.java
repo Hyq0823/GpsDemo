@@ -13,10 +13,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by hyq on 2017/8/23.
@@ -30,11 +27,8 @@ public class ExportExcel {
     private List<String> headers = new ArrayList<String>();
     private String excelTitle;
 
-    private static final String SETTER_PREFIX = "set";
+
     private static final String GETTER_PREFIX = "get";
-    /**
-     * 样式库常量
-     */
     private static final String STYLE_TITLE = "title";
     private static final String STYLE_HEAD = "head";
     private static final String STYLE_DATA_CENTER = "data_center";
@@ -46,6 +40,23 @@ public class ExportExcel {
         this.headers = createHeaders(clazz);
         init();
     }
+
+    public ExportExcel(String excelTitle,List<String> headers){
+        this.excelTitle = excelTitle;
+        this.headers = headers;
+        init();
+    }
+
+    public ExportExcel(String excelTitle,String[] headers){
+        this.excelTitle = excelTitle;
+        this.headers = Arrays.asList(headers);
+        init();
+    }
+
+    public ExportExcel() {
+    }
+
+
 
     /**
      * 初始化(标题、表头)
@@ -65,41 +76,81 @@ public class ExportExcel {
     }
 
 
-    public <T> void setData(List<T> data)throws  Exception{
-        // throw new IllegalStateException("please call init() method first...");
+    public <T> ExportExcel setData(List<T> data)throws  Exception{
+        if(annotationList.size() == 0){
+            System.out.println("Warn.....excelFiled annotation field not found!");
+        }
         for(T t :data){
+            int column = 0;
+            Row row = this.addRow();
+            StringBuilder sb = new StringBuilder();
             for(Object[] os : annotationList){
                 Object value = null;
                 ExcelField excelField = (ExcelField) os[0];
                 String defaultValue = excelField.value();
-
-                if(value!=null && !"".equals(value)){//固定值
+                if(defaultValue!=null && !"".equals(defaultValue)){//固定值
                     value = defaultValue ;
-                }else{//需要反射获取的
-                    if(os[1] instanceof Field){ //如果excel注解是声明在字段上面的
-                        //反射获取Get方法来获取值.
-                        Field field = (Field) os[1];//字段
+                }else{
+                    if(os[1] instanceof Field){
+                        Field field = (Field) os[1];
                         value = reflectGetValue(t,field.getName());
                     }
+                //如果excelFiled声明在方法上面的
                 }
+                this.addCell(row, column++, value);
+                sb.append(value + ", ");
             }
+            System.out.println("Write success: ["+row.getRowNum()+"] "+sb.toString());
         }
+        return this;
     }
 
 
 
     //==================basic============================================================================
-
-    private Object reflectGetValue(Object obj,String propertyName) throws Exception {
-        Object result = null;
-        Method[] methods = obj.getClass().getMethods();
-        for(Method method : methods){
-            String methodName = method.getName();
-            if(methodName.startsWith(GETTER_PREFIX)){
-                result = method.invoke(obj, new Object[] {});
+    /**
+     * 添加一个单元格
+     * @param row 添加的行
+     * @param column 添加列号
+     * @param val 添加值
+     * @return 单元格对象
+     */
+    public Cell addCell(Row row, int column, Object val){
+        Cell cell = row.createCell(column);
+        CellStyle style = styles.get(STYLE_DATA_CENTER);
+        try {
+            if (val == null){
+                cell.setCellValue("");
+            } else if (val instanceof String) {
+                cell.setCellValue((String) val);
+            } else if (val instanceof Integer) {
+                cell.setCellValue((Integer) val);
+            } else if (val instanceof Long) {
+                cell.setCellValue((Long) val);
+            } else if (val instanceof Double) {
+                cell.setCellValue((Double) val);
+            } else if (val instanceof Float) {
+                cell.setCellValue((Float) val);
+            } else if (val instanceof Date) {
+                DataFormat format = wb.createDataFormat();
+                style.setDataFormat(format.getFormat("yyyy-MM-dd HH:mm:ss"));
+                cell.setCellValue((Date) val);
+            }else{
+                cell.setCellValue("");
             }
+        } catch (Exception ex) {
+            System.out.println("Set cell value ["+row.getRowNum()+","+column+"] error: " + ex.toString());
+            cell.setCellValue(val.toString());
         }
-        return result;
+        cell.setCellStyle(style);
+        return cell;
+    }
+
+
+    private Object reflectGetValue(Object obj, String propertyName) throws Exception {
+        String getMethodName  = GETTER_PREFIX + propertyName.substring(0,1).toUpperCase()+ propertyName.substring(1);
+        Method method = obj.getClass().getMethod(getMethodName, new Class[]{});
+       return method.invoke(obj,new Object[]{});
     }
 
     /**
@@ -108,8 +159,9 @@ public class ExportExcel {
      * @param fileName 输出文件名
      */
     public static HttpServletResponse handleRespWriteInfo(HttpServletResponse response, String fileName) throws IOException, UnsupportedEncodingException {
-        fileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
-        response.setContentType("application/octet-stream; charset=utf-8");
+        fileName = new String(fileName.getBytes("UTF-8"),"ISO-8859-1");
+        response.setContentType("application/vnd.ms-excel;charset=utf-8");
+        //response.setContentType("application/octet-stream; charset=utf-8");
         response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
         return response;
     }

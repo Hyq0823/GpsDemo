@@ -76,8 +76,8 @@
       <ul id="tabs">
           <li><a href="#" title="tab1">基础接口</a></li>
           <li><a href="#" title="tab2">录像查询下载</a></li>
-          <li><a href="#" title="tab3">Three</a></li>
-          <li><a href="#" title="tab4">Four</a></li>
+          <li><a href="#" title="tab3">Excel操作</a></li>
+          <li><a href="#" title="tab4">表格相关</a></li>
       </ul>
       <div id="content">
           <div id="tab1">
@@ -153,10 +153,27 @@
               </form>
           </div>
           <div id="tab3">
-            内容3
+            <a href="${baasePath}/excel/downloadTemplate">下载地区导入模板</a> <br />
+              <form style="border:1px solid blue;margin-top:30px;" action="${ctx }/excel/importArea"  method="post" enctype="multipart/form-data">
+                  <input type="file" name="file" />
+                  <input type="submit" value="提交" />
+              </form>
+
+              <form style="padding: 10px;width: 100%;height: 400px;overflow: scroll;display: block">
+                  <c:forEach items="${areaList}" var="e">
+                      <p>
+                         id: ${e.id}  |    hasChild:${e.hasChild}  |  parentId:${e.parentId}  |  code:${e.code}
+                      </p>
+                  </c:forEach>
+
+              </form>
+
+
           </div>
-          <div id="tab4">
-           内容4
+          <div id="tab4" style="width:100%;height:100%;">
+              <a href="${basePath}/table/table" style="margin-top: 40px;display: block;">点我-动态表格</a>
+              <br />
+              <a href="${basePath}/table/treeTable">点我-Tree Table</a>
           </div>
       </div>
       <br>
