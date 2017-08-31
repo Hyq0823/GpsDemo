@@ -86,6 +86,10 @@
                   <c:if test="${sessionScope.loginForm.result ne '0'}">
                     <a href="${basePath}/gps/login">登录</a>
                   </c:if>
+              <hr/>
+
+              <a href="${basePath}/gps/trail">点我-历史轨迹demo</a>
+
           </div>
           <div id="tab2">
               <form method="post" action="${basePath}/gps/video/back" style="height: 600px;overflow: scroll">
@@ -100,11 +104,11 @@
                 至
               <input id="endTime" name="endTime" value="${videoQuyery.endTime}" type="text"
                      onclick="WdatePicker({
-                         //onpicking:function(dp){
-                         //var value =  $('#startTime').attr('onclick');
-                          //value = value.replace('H:-23,m:-59,s:-59','H:'+(23-dp.cal.date.H)+',m:'+(59-dp.cal.date.m)+',s:'+(59-dp.cal.date.s));
-                          //$('#startTime').attr('onclick',value);
-                     //},
+                         onpicking:function(dp){
+                         var value =  $('#startTime').attr('onclick');
+                          value = value.replace('H:-23,m:-59,s:-59','H:'+(23-dp.cal.date.H)+',m:'+(59-dp.cal.date.m)+',s:'+(59-dp.cal.date.s));
+                          $('#startTime').attr('onclick',value);
+                     },
                      minDate:'#F{$dp.$D(\'startTime\')}',maxDate:'#F{$dp.$D(\'startTime\',{H:23,m:59,s:59}) || \'%y-%M-%d %H:%m:%s\'}',skin:'twoer',dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"/>
                 <br />
                   文件位置:<select name="loc">

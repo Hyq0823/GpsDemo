@@ -3,14 +3,14 @@ package com.spzh.form;
 /**
  * Created by hyq on 2017/8/17.
  */
-public class VideoQuyery {
+public class VideoQuyeryVo {
     private String deviceNo;
     private String startTime;
     private String endTime;
     private String loc;
     private String rectype;
 
-    public VideoQuyery(String deviceNo, String startTime, String endTime, String loc, String rectype) {
+    public VideoQuyeryVo(String deviceNo, String startTime, String endTime, String loc, String rectype) {
         this.deviceNo = deviceNo;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -18,7 +18,7 @@ public class VideoQuyery {
         this.rectype = rectype;
     }
 
-    public VideoQuyery() {
+    public VideoQuyeryVo() {
     }
 
     public String getDeviceNo() {

@@ -21,6 +21,7 @@ public class HttpUtils {
      * @return 远程响应结果
      */
     public static String sendGet(String url) {
+        url = url.replace(" ","%20");
         String result="";
         BufferedReader in = null;// 读取响应输入流
         StringBuffer sb = new StringBuffer();// 存储参数
