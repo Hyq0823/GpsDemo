@@ -159,6 +159,7 @@
             this.tableId = "table" + Util.tableCount;
             this.trIndex = 0;
             this.init();
+
         }
         DynamicTable.prototype.init = function () {
             var table = this.tableTemplate.clone(true);
@@ -180,25 +181,26 @@
         DynamicTable.prototype.addRow = function () {
             var html_tr = this.firstTr[0].outerHTML;
             html_tr = html_tr.replace("<tr>", '<tr id="' + this.tableId + '_tr_' + this.trIndex + '">');
+            html_tr = html_tr.replace('class="thisRow"',"");
             this.trIndex++;
            //console.log(html_tr);
             $(this.tableBody).append(html_tr);
             console.groupEnd();
         }
         DynamicTable.prototype.delRow = function () {
-            console.log(this.tableBody[0].outerHTML);
-            var checkedTrs = this.tableBody.find("tr").attr("class", "checked");
-            console.log(checkedTrs);
-            this.trIndex-=(checkedTrs.length-1);
-
+            var checkedTrs = this.tableBody.find("tr[class=thisRow]");
+            this.trIndex-=(checkedTrs.length);
             //勾选删除还是从最后一行开始删除
             $.each(checkedTrs, function (index, value){
-                if (index == 0) {
+               /* if (index == 0) {
                     return true;
-                }
+                }*/
                 value.remove();
             });
-            console.log("剩余tr:" + this.trIndex);
+
+            //TODO tr的索引最后减为 -1 不能用length来减，他是下标
+            console.log("剩余tr索引:" + this.trIndex);
+            alert("剩余tr:" + this.trIndex);
 
             /*
              //删除最后一行

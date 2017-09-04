@@ -61,7 +61,10 @@
         ,startEndSrc:basePath+'/static/gps/images/baidu.png'
         ,lushu:null
         ,map:null
-        ,isLushuInit:function(){
+        ,calculateGsp:function(start,end){//计算gps两点间的距离
+            if(!start || !end){return 0};
+           return (end.lc - start.lc)/1000;
+        },isLushuInit:function(){
             if(!BaiduMap.lushu){
                 console.log("lushu is not  init");
                 return false;
@@ -84,8 +87,16 @@
             var end = arr[arr.length - 1];
             var startIcon=new BMap.Icon(BaiduMap.startEndSrc,new BMap.Size(25, 32), {imageOffset: new BMap.Size(-200, -140),anchor: new BMap.Size(16, 32)});
             var endIcon=new BMap.Icon(BaiduMap.startEndSrc,new BMap.Size(25, 32), {imageOffset: new BMap.Size(-225, -140),anchor: new BMap.Size(16, 32)});
+
+            //计算起点和终点的距离
+            var pointLen = new BMap.Point(start.mlng,start.mlat);
+            var markerLen = new BMap.Marker(pointLen);  // 创建标注
+            var labelLen = new BMap.Label("路线长度："+BaiduMap.calculateGsp(start,end)+"公里",{offset:new BMap.Size(32,6)});
+            markerLen.setLabel(labelLen);
+            BaiduMap.map.addOverlay(markerLen);
+
             BaiduMap.addMapMark(start,startIcon);
-           // BaiduMap.addMapMark(end,endIcon);
+           BaiduMap.addMapMark(end,endIcon);
         },addMapMark:function(p,icon){//添加覆盖物（p:百度地图坐标,icon:覆盖物icon）
             var point = new BMap.Point(p.mlng,p.mlat);
             var mark = new BMap.Marker(point,{icon:icon});  // 创建标注
@@ -95,6 +106,7 @@
                     +"<span class='b'>gps时间:</span> "+p.gt+"<br />"
                     +"<span class='b'>里程:</span> "+(p.lc)/1000+" 公里<br />"
                     +"<span class='b'>停车时长：</span> "+(p.pk)+" 秒<br />"
+                    +"<a class='b' href="+basePath+"/gps/search?time="+encodeURIComponent(p.gt)+">查询时间点附近录像</a><br />"
             var infoWindow = new BMap.InfoWindow(content);// 创建信息窗口对象
             mark.addEventListener("click", function() {
                 this.openInfoWindow(infoWindow);
@@ -173,9 +185,10 @@
         ,speedUp:$("#speedUp")
         ,speedDown:$("#speedDown")
         ,speedSlider:$("#speed-slider")
-        ,speedCount:$("#speedCount")//滑块速度显示器
-        ,btn_start:$("#btn_start")//路书开始
-        ,btn_pause:$("#btn_pause")//路书暂停
+        ,speedCount:$("#speedCount") //滑块速度显示器
+        ,btn_start:$("#btn_start") //路书开始
+        ,btn_pause:$("#btn_pause") //路书暂停
+        ,searchParkVideo:$(".searchParkVideo") //停车时间点
         ,isEquireStr1:function(obj){
          if(obj && obj == '1'){return true};
          return false;

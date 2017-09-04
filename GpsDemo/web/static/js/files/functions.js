@@ -311,26 +311,15 @@ $(function() {
 	
 	
 	//===== Check all checbboxes =====//
-	
 	$(".titleIcon input:checkbox").click(function() {
         var checkedStatus = this.checked;
-
-		//$("#checkAll tbody tr td:first-child input:checkbox").each(function() {
-        //Fixed 存在多个表格时,全选不生效的问题
         $(this).closest('.widget').find("table tbody tr td:first-child input:checkbox").each(function(){
-			this.checked = checkedStatus;
-				if (checkedStatus == this.checked) {
-					//$(this).closest('.checker > span').removeClass('checked');
-                    $(this).removeClass('checked');
-					$(this).closest('table tbody tr').removeClass('thisRow');
-				}
-				if (this.checked) {
-					//$(this).closest('.checker > span').addClass('checked');
-					$(this).addClass('checked');
-					$(this).closest('table tbody tr').addClass('thisRow');
-				}
+            $(this).toggleClass('checked');
+            $(this).closest('tr').toggleClass('thisRow');
+            $.uniform.update($(this).attr("checked",checkedStatus));
 		});
-	});	
+
+    });
 	
 	$(function() {
         //$('.checkAll tbody tr td:first-child input[type=checkbox]').change(function() {
@@ -340,6 +329,9 @@ $(function() {
         $(document).on("click",'.checkAll tbody tr td:first-child input[type=checkbox]',function(){
             $(this).closest('tr').toggleClass("thisRow", this.checked);
             $(this).toggleClass('checked',this.checked);
+
+            //动态添加的checkbox项这里更新不生效。
+            //$.uniform.update($(this).attr('checked'),this.checked);
         });
 
 
