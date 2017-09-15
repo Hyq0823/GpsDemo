@@ -137,11 +137,13 @@
     </div>
 </div>
 
+<!-- 模板行-->
 <script type="text/template" id="treeTableTpl">
     <tr id="{{row.id}}" pId="{{pid}}" haschild="true">
         <td>{{row.name}}</td>
         <td>{{row.code}}</td>
     </tr>
 </script>
+
 </body>
 </html>

@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <link rel="stylesheet" type="text/css" href="${basePath }/static/css/tab_change.css">
 <%
   String path = request.getContextPath();
@@ -89,6 +88,7 @@
               <hr/>
 
               <a href="${basePath}/gps/trail">点我-历史轨迹demo</a>
+              <hr />
 
           </div>
           <div id="tab2">
@@ -181,7 +181,6 @@
                          id: ${e.id}  |    hasChild:${e.hasChild}  |  parentId:${e.parentId}  |  code:${e.code}
                       </p>
                   </c:forEach>
-
               </form>
 
 
@@ -190,6 +189,20 @@
               <a href="${basePath}/table/table" style="margin-top: 40px;display: block;">点我-动态表格</a>
               <br />
               <a href="${basePath}/table/treeTable">点我-Tree Table</a>
+
+
+              <hr />
+              分页：
+
+
+              <div style="display: block;height: 200px;">
+                  <jsp:include page="pagination.jsp" flush="true">
+                      <jsp:param name="pageNo" value="7" />
+                      <jsp:param name="totalPage" value="10"/>
+                  </jsp:include>
+              </div>
+
+
           </div>
       </div>
       <br>
@@ -273,18 +286,18 @@
 
   <script type="text/javascript">
       $(document).ready(function() {
-          $("#content div").hide(); // Initially hide all content
+          $("#content > div").hide(); // Initially hide all content
           $("#tabs li:first").attr("id","current"); // Activate first tab
           $("#content div:first").fadeIn(); // Show first tab content
 
           $('#tabs a').click(function(e) {
               e.preventDefault();
-              $("#content div").hide(); //Hide all content
+              $("#content > div").hide(); //Hide all content
               $("#tabs li").attr("id",""); //Reset id's
               $(this).parent().attr("id","current"); // Activate this
               $('#' + $(this).attr('title')).fadeIn(); // Show content for current tab
           });
-      })();
+      });
   </script>
 
 <script type="text/javascript">
