@@ -86,9 +86,19 @@
                     <a href="${basePath}/gps/login">登录</a>
                   </c:if>
               <hr/>
-
               <a href="${basePath}/gps/trail">点我-历史轨迹demo</a>
               <hr />
+
+
+              <form action="${basePath}/file/upload" method="post" enctype="multipart/form-data" >
+                  <input type="file" name="file" />
+                  <input type="submit" value="提交" />
+              </form>
+
+
+              <hr />
+
+              <a href="/pdfview.jsp">pdf预览</a>
 
           </div>
           <div id="tab2">

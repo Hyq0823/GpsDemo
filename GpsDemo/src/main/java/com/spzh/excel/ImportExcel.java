@@ -115,9 +115,7 @@ public class ImportExcel {
         Field[] declaredFields = clazz.getDeclaredFields();
         for (Field field : declaredFields) {
             ExcelField excelField = field.getAnnotation(ExcelField.class);
-            if (excelField == null) {
-                continue;
-            }
+            if (excelField == null)
             this.annotationList.add(new Object[]{excelField, field});
         }
     }

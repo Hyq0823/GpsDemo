@@ -4,8 +4,8 @@
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=XsPtkMm8pR9Tc5il0nR4sZvAq7h63rPZ"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
 
-<script type="text/javascript"
-        src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
+<!-- 检索信息框-->
+<script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
 <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css"/>
 
 <script type="text/javascript" src="${basePath }/static/layer3.0.3/layer/layer.js"></script>
@@ -17,8 +17,7 @@
 </style>
 <script type="text/javascript">
     var basePath = "${basePath}";
-
-    String.prototype.format = function () {
+    String.prototype.format = function () {//扩展string能力,使之具有字符串替换的功能。
         if (arguments.length == 0) return this;
         for (var s = this, i = 0; i < arguments.length; i++)
             s = s.replace(new RegExp("\\{" + i + "\\}", "g"), arguments[i]);
@@ -58,6 +57,10 @@
 </body>
 
 <script type="text/javascript">
+    //var BMapLib = window.BMapLib = BMapLib || {};
+    //采用这种赋值方式可以保证变量是一个对象.
+
+
     var params = {
         jesession: "${jsession}"
         , trail_url: "${trail_history_url}"
@@ -105,7 +108,7 @@
 
             //计算起点和终点的距离
             var pointLen = new BMap.Point(start.mlng, start.mlat);
-            var markerLen = new BMap.Marker(pointLen);  // 创建标注
+            var markerLen = new BMap.Marker(pointLen);  //创建标注
             var labelLen = new BMap.Label("路线长度：" + BaiduMap.calculateGsp(start, end) + "公里", {offset: new BMap.Size(32, 6)});
             markerLen.setLabel(labelLen);
             BaiduMap.map.addOverlay(markerLen);
@@ -126,7 +129,7 @@
             mark.addEventListener("click", function () {
                 this.openInfoWindow(infoWindow);
             });
-            /* //检索信息框
+            /* //百度路书搜索信息窗体
              var searchInfoWindow = new BMapLib.SearchInfoWindow(BaiduMap.map,content,{
              title: "轨迹点信息", //标题
              width: 100, //宽度
@@ -187,6 +190,8 @@
                  {lng:116.381476,lat:39.974073,html:'肯德基早餐<div><img src="http://ishouji.baidu.com/resource/images/map/show_pic04.gif"/></div>',pauseTime:2}
                  ]*/
             });
+
+
         }, lushu_start: function () {
             if (BaiduMap.isLushuInit()) {
                 BaiduMap.lushu.start();
